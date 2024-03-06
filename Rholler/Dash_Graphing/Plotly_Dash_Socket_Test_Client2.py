@@ -1,3 +1,5 @@
+# This script just tests data sending over socket, then graphing. Not servo movement.
+# Works with Plotly_test.py
 import dash
 from dash import dcc, html
 from dash.dependencies import Input, Output
@@ -10,6 +12,7 @@ import threading
 # Queue for holding data
 data_queue = queue.Queue()
 
+
 # Thread for handling socket communication
 def socket_thread():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -21,6 +24,7 @@ def socket_thread():
                 # Convert JSON string back to dictionary and put it into the queue
                 data_dict = json.loads(data)
                 data_queue.put(data_dict)
+
 
 # Start the socket thread
 threading.Thread(target=socket_thread, daemon=True).start()
@@ -40,9 +44,10 @@ app.layout = html.Div([
 x_values = [5]  # Start with a static X value for diagnostics
 y_values = [15]  # Start with a static Y value for diagnostics
 
+
 @app.callback(Output('real-time-graph', 'figure'),
               [Input('update-interval', 'n_intervals')])
-def update_graph_live(n):
+def update_graph_live():
     global x_values, y_values  # Use global variables to accumulate data
 
     print("Callback triggered")  # Confirm the callback is being triggered
@@ -71,6 +76,7 @@ def update_graph_live(n):
             uirevision='constant'  # Prevents resetting the zoom level after update
         )
     }
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
