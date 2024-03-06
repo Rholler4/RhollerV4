@@ -27,6 +27,10 @@ def update_graph_live(n):
     x_data = list(range(10))  # X values from 0 to 9
     y_data = [random.randint(1, 30) for _ in range(10)]  # Random Y values
 
+    print("Updating graph...")  # Diagnostic message
+    print(f"x_data: {x_data}")  # Print x_data for diagnostics
+    print(f"y_data: {y_data}")  # Print y_data for diagnostics
+
     # Create a Plotly graph
     figure = {
         'data': [
