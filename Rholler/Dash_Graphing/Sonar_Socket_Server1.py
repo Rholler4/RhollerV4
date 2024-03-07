@@ -32,7 +32,7 @@ direction_1 = 1
 
 # Socket initialization
 HOST = '192.168.0.101'  # IP address of the server
-PORT = 49777  # Port to listen on
+PORT = 49730  # Port to listen on
 
 # Create a socket object
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
