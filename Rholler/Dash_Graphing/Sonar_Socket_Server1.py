@@ -58,7 +58,7 @@ try:
 
             # Send data to the client
             data_to_send = f'{distance1:.1f} {distance2:.1f} {current_angle_0} {current_angle_1}\n'
-            conn.sendall(data_to_send.encode())
+            conn.sendall(data_to_send.encode('utf-8'))
 
             # Wait a bit for the distance to stabilize
             sleep(0.5)
