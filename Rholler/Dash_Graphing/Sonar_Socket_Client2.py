@@ -33,8 +33,10 @@ def update_graph(n):
 
     # Receive data from the server
     data = client_socket.recv(1024)
+    print("Received data:", data)  # TODO: No data being printed
     if data:
         data = data.decode().split()
+        print("Received data:", data)  # TODO: No data being printed
         distance1, distance2, angle0, angle1 = map(float, data)
 
         # Append received data to the lists

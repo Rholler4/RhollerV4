@@ -8,6 +8,7 @@ import socket
 import json
 import queue
 import threading
+import time
 
 # Queue for holding data
 data_queue = queue.Queue()
@@ -17,6 +18,7 @@ data_queue = queue.Queue()
 def socket_thread():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect(('192.168.0.101', 49730))  # Connect to the server
+        print("Connection established")
         while True:
             data = s.recv(1024).decode('utf-8')
             if data:
