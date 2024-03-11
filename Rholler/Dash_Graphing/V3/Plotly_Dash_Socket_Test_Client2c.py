@@ -26,6 +26,14 @@ def socket_thread(q):  # Socket takes q as argument, which is a queue object
                 print("Received data:", data)  # Print the received data for diagnostics
                 distance1, distance2, angle1, angle2 = map(float, data.split())
 
+                # Rotate entire graph 45 degrees clockwise to have 270 degree range center at top of graph
+                angle1 = angle1 - 45
+                angle2 = angle2 - 45
+
+                # Flip rear sensor on graph
+                angle2 = angle2 + 180
+                # TODO ENSURE THIS DIDN'T REVERSE DATA for rear sensor. Like flipped.
+
                 # Convert from polar to Cartesian coordinates
                 angle1_rad = math.radians(angle1)
                 x1 = distance1 * math.cos(angle1_rad)
@@ -33,6 +41,10 @@ def socket_thread(q):  # Socket takes q as argument, which is a queue object
                 angle2_rad = math.radians(angle2)
                 x2 = distance2 * math.cos(angle2_rad)
                 y2 = distance2 * math.sin(angle2_rad)
+
+                # TODO Restrict rear sonar to 90degrees
+                # TODO Add function that removes old dots to have one entry per angle.
+                # TODO Shift Rear sensor data on graph __units down on y axis
 
                 # Put the converted data into the queue
                 q.put({'sensor1': (x1, y1), 'sensor2': (x2, y2)})
@@ -70,15 +82,16 @@ def update_graph_live(n):
         y_values_sensor2.append(p['sensor2'][1])
 
     # Create new traces with updated data for both sensors
+    # TODO Rename sensors on graph to "FRONT" AND "REAR"
     trace1 = go.Scatter(x=x_values_sensor1, y=y_values_sensor1, mode='markers', name='Sensor 1')
     trace2 = go.Scatter(x=x_values_sensor2, y=y_values_sensor2, mode='markers', name='Sensor 2')
 
     return {
         'data': [trace1, trace2],  # Use the updated list of data for both sensors
         'layout': go.Layout(
-            title='Real-time Data from Server',
-            xaxis=dict(title='X coordinate', autorange=True),
-            yaxis=dict(title='Y coordinate', autorange=True),
+            title='Sonar Detection',
+            xaxis=dict(title='X coordinate', autorange=False, range=[-110, 110]),
+            yaxis=dict(title='Y coordinate', autorange=False, range=[-110, 110], scaleanchor="x", scaleratio=1),
             uirevision='constant'  # Prevents resetting the zoom level after update
         )
     }
