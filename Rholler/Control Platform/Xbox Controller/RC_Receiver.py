@@ -3,26 +3,31 @@ import json
 import board
 import busio
 import adafruit_pca9685
+from adafruit_servokit import ServoKit
 
 def setup_pca():
     i2c = busio.I2C(board.SCL, board.SDA)
-    hat = adafruit_pca9685.PCA9685(i2c)
-    hat.frequency = 100
-    return hat.channels[11]
+    pca = adafruit_pca9685.PCA9685(i2c)
+    pca.frequency = 100
+    kit = ServoKit(channels=16)
+    return pca.channels[11], kit.servo[10]
 
 def adjust_throttle_from_command(channel, command):
-    # Adjust the throttle based on the received command
     if command == 'neutral':
         duty_cycle = 0x2666
     elif command == 'forward':
         duty_cycle = 0x2800
-    # elif command == 'reverse':
-        # Replace 0x2000 with the actual duty cycle for reverse if different
-    #   duty_cycle = 0x2000
     else:
-        # Default to neutral if command is unrecognized
         duty_cycle = 0x2666
     channel.duty_cycle = duty_cycle
+
+def adjust_steering_from_command(servo, direction):
+    if direction == 'left':
+        servo.angle = 45  # Adjust this angle for your setup
+    elif direction == 'right':
+        servo.angle = 135  # Adjust this angle for your setup
+    else:
+        servo.angle = 90  # Straight forward
 
 def start_server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -32,17 +37,18 @@ def start_server():
         conn, addr = s.accept()
         with conn:
             print('Connected by', addr)
-            throttle_channel = setup_pca()
+            throttle_channel, steering_servo = setup_pca()
             while True:
                 data = conn.recv(1024)
                 if not data:
                     break
-                # Extract the throttle command and adjust the throttle
                 try:
-                    command = json.loads(data.decode('utf-8'))['throttle']
-                    adjust_throttle_from_command(throttle_channel, command)
+                    commands = json.loads(data.decode('utf-8'))
+                    if 'throttle' in commands:
+                        adjust_throttle_from_command(throttle_channel, commands['throttle'])
+                    if 'steering' in commands:
+                        adjust_steering_from_command(steering_servo, commands['steering'])
                 except KeyError:
-                    # If 'throttle' key is not found in the received data, ignore it
                     continue
 
 if __name__ == "__main__":
