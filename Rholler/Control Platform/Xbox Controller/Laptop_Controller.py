@@ -17,7 +17,7 @@ def get_gamepad():
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             # Replace '192.168.1.100' with the IP address of the Raspberry Pi running the RC car script
-            s.connect(('192.168.1.101', 50123))
+            s.connect(('192.168.0.101', 49731))
             while True:
                 events = inputs.get_gamepad()
                 for event in events:
@@ -31,6 +31,7 @@ def get_gamepad():
                             last_sent_command = throttle_command
     except KeyboardInterrupt:
         print("Controller script stopped")
+
 
 if __name__ == "__main__":
     get_gamepad()

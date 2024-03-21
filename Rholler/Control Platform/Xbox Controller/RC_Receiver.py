@@ -26,7 +26,7 @@ def adjust_throttle_from_command(channel, command):
 
 def start_server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind(('0.0.0.0', 50123))
+        s.bind(('192.168.0.101', 49731))
         s.listen()
         print("Waiting for connection...")
         conn, addr = s.accept()
