@@ -25,7 +25,7 @@ def get_gamepad():
     last_sent_steering = None
     try:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect(('192.168.0.101', 49731))  # Replace with the Raspberry Pi's IP
+            s.connect(('192.168.0.101', 49731))
             while True:
                 events = inputs.get_gamepad()
                 for event in events:
