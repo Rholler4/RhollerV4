@@ -16,12 +16,17 @@ def setup_pca():
 
 def adjust_throttle_from_command(channel, command):
     if command == 'neutral':
-        duty_cycle = 0x2666
-    elif command == 'forward':
-        duty_cycle = 0x2800
+        duty_cycle = 0x2666  # Neutral signal
+    elif command == 'half_forward':
+        duty_cycle = 0x2800  # Half forward signal
+    elif command == 'full_forward':
+        duty_cycle = 0x2900  # Full forward signal
+    elif command == 'brake':
+        duty_cycle = 0x1999  # Brake signal
     else:
-        duty_cycle = 0x2666
+        duty_cycle = 0x2666  # Default to neutral
     channel.duty_cycle = duty_cycle
+
 
 
 def adjust_steering_from_command(servo, direction):

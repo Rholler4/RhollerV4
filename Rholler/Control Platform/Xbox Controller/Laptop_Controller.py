@@ -4,13 +4,17 @@ import json
 
 # Function to categorize the ABS_Y value into throttle levels
 def get_throttle_level(abs_y):
-    if -32768 <= abs_y < -8000:
-        return 'reverse'
-    elif -8000 <= abs_y <= 8000:
+    # Adjust these values based on your controller's range and sensitivity
+    if -32768 <= abs_y < -8000:  # Brake zone
+        return 'brake'
+    elif -8000 <= abs_y <= 8000:  # Neutral zone
         return 'neutral'
-    elif 8000 < abs_y <= 32767:
-        return 'forward'
+    elif 8000 < abs_y <= 24000:  # Half throttle zone
+        return 'half_forward'
+    elif 24000 < abs_y <= 32767:  # Full throttle zone
+        return 'full_forward'
     return 'neutral'  # Default case
+
 
 def get_gamepad():
     last_sent_command = {'throttle': None, 'steering': None}  # Track the last commands sent for both throttle and steering
