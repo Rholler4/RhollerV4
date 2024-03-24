@@ -4,6 +4,7 @@ from gpiozero import DistanceSensor
 from adafruit_servokit import ServoKit
 from time import sleep
 import socket
+import adafruit_pca9685
 
 # Set gpiozero to use the pigpio pin factory
 gpiozero.Device.pin_factory = PiGPIOFactory()
@@ -14,6 +15,10 @@ sensor2 = DistanceSensor(echo=23, trigger=22)
 
 # Initialize servos
 kit = ServoKit(channels=16)
+# Set frequency to 100!!!!!
+# TODO test to see if this doesn't fuck the throttle
+pca = adafruit_pca9685.PCA9685(busio.I2C(board.SCL, board.SDA))
+pca.frequency = 100
 kit.servo[0].actuation_range = 270
 kit.servo[1].actuation_range = 270
 kit.servo[0].set_pulse_width_range(500, 2500)
