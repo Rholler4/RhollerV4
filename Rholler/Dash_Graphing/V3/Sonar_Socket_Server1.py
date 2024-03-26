@@ -4,6 +4,9 @@ from gpiozero import DistanceSensor
 from adafruit_servokit import ServoKit
 from time import sleep
 import socket
+# Imports for changing the damn frequency
+import board
+import busio
 import adafruit_pca9685
 
 # Set gpiozero to use the pigpio pin factory
@@ -15,7 +18,7 @@ sensor2 = DistanceSensor(echo=23, trigger=22)
 
 # Initialize servos
 kit = ServoKit(channels=16)
-# Set frequency to 100!!!!!
+# Set frequency to 100!!!!! THIS FUCKER BROKE MY STEERING
 # TODO test to see if this doesn't fuck the throttle
 pca = adafruit_pca9685.PCA9685(busio.I2C(board.SCL, board.SDA))
 pca.frequency = 100
