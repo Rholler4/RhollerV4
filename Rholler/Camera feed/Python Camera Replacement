@@ -1,2 +1,52 @@
 rpicam-vid -t 0 --inline --listen -o tcp://0.0.0.0:5005
 tcp/h264://192.168.0.101:5005
+
+RASPI5:
+H264 codec issues. Can't find the codec???
+Streaming in mjpeg instead....
+
+rpicam-vid -t 0 --codec mjpeg --inline --listen -o tcp://0.0.0.0:5005
+tcp/mjpeg://192.168.0.153:5005
+
+3/24/2024: After streaming for some time, stream froze, SSH crashed,
+pi wouldn't respond to pings. On reboot, could not ping or ssh
+pi did however show up in router wireless connection list.
+
+rpicam-vid --width 1920 --height 1080 -t 0 --codec mjpeg --inline --listen -o tcp://0.0.0.0:5005
+This streamed fine for a little while, but appears to have been bogged down over time
+Got slower and choppier.
+
+Reran after letting sit a couple minutes ran fine until
+at frame #3827 the stream got choppy again. Not sure why.
+
+Attempted to run at 1280x720, still choppy. Ran screen_test.py seconds later
+reran 1280x720, was smooth. ???
+
+
+rpicam-vid --width 3840 --height 2160 -t 0 --codec mjpeg --inline --listen -o tcp://0.0.0.0:5005
+
+Ran at 3840x2160 and was 1.4sec delay and no choppiness through entire test (6536 frames)
+Understand choppy was probably from walking laptop away to kitchen.
+I think TCP is screwing with me as it REQUIRES transmission success
+
+STREAM USAGE 1 CAMERA TEST
+Streaming basically unmoving living room
+READINGS from HTOP (load average listed over 1 min):
+Keep load average below the number of cores.
+CPU usage exceeds 100% only because the load is across multiple cores.
+
+
+
+640x480 30fps
+Load average: 0.22
+
+1920x1080 30fps
+Load average: 0.35-0.42 (0.67 waving arms on couch)
+
+3840x2160 *15fps*
+Load average: 0.58 - 0.68
+
+3840x2160 30fps
+Load average: 1.13 - 1.35
+
+No choppiness through test.
