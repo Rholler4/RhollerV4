@@ -50,3 +50,11 @@ Load average: 0.58 - 0.68
 Load average: 1.13 - 1.35
 
 No choppiness through test.
+
+FFmpeg: ffplay udp SUCCESS!!!!
+rpicam-vid --width 3840 --height 2160 --framerate 30 -t 0 --codec mjpeg --inline -o udp://192.168.0.189:54322
+ffplay udp://192.168.0.189:54322 -fflags nobuffer -flags low_delay -framedrop
+
+had to install ffmpeg and requires some resizing of the window but this works!!
+
+Testing:
