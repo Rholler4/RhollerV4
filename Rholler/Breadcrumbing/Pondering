@@ -1,0 +1,10 @@
+Do I set up a /30 network with the controller and RC car as the only devices?
+Can I OSPF my relays?
+How do I handle 2, 24fps cameras worth of traffic?
+Pi Zero relay?
+    Interpretation should not be required for packets so lower resource requirement?
+Solar?
+Figure out a way to be directional?
+    Maybe servo sweep and measure decibels?
+
+Do they then act like repeaters or like routers? Is this dynamic routing
