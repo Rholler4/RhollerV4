@@ -39,7 +39,7 @@ direction_0 = 1
 direction_1 = 1
 
 # Socket initialization
-HOST = '192.168.0.101'  # IP address of the server
+HOST = '192.168.0.153'  # IP address of the RC car
 PORT = 49730  # Port to listen on
 
 # Create a socket object

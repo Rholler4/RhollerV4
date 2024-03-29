@@ -1,0 +1,46 @@
+lis3dh gyro 0x18
+MCP9808 thermo 0x19
+OLED 128x32 0x3C
+Motor w/ M1 & M2 broken, 0x60
+Motor bonnet, 0x61
+PWM bonnet, 0x40 (& 0x70?)
+source myenv/bin/activate
+
+from adafruit_servokit import ServoKit
+kit = ServoKit(channels=16)
+
+
+kit.servo[0].actuation_range = 270
+kit.servo[1].actuation_range = 270
+
+kit.servo[1].set_pulse_width_range(500, 2500)
+kit.servo[0].set_pulse_width_range(500, 2500)
+kit.servo[1].angle = 0
+kit.servo[1].angle = 270
+
+
+
+Had to set actuation range AND pulse width range had to be set in microseconds (500, 2500). Found appropriate settings on amazon store page.
+https://www.amazon.com/ANNIMOS-Digital-Waterproof-Crawler-Control/dp/B07GK1G5FV#customerReviews
+
+
+
+
+
+Motor bonnet:
+from adafruit_motorkit import MotorKit
+kit = MotorKit(address=0x60) # Or 0x61
+
+kit.motor1.throttle = 1.0
+
+sudo i2cdetect -y 1
+
+
+
+SONAR SENSOR 1 IS ORANGE
+SONAR SENSOR 2 IS PURPLE
+
+C922 Pro Stream Webcam
+        /dev/video0
+        /dev/video1
+        /dev/media4
