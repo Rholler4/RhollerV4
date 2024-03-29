@@ -58,3 +58,31 @@ ffplay udp://192.168.0.189:54322 -fflags nobuffer -flags low_delay -framedrop
 had to install ffmpeg and requires some resizing of the window but this works!!
 
 Testing:
+
+Delay gets HARSH. vq (video queue) fills because stream is 30fps and playback is 25fps.
+Set stream to 25fps and you're set.
+WRONG! Stream set to 25fps gives something like 25.01-25.02. This WILL eventually fill the vq and cause lag.
+Weird quirk, if starting ffplay BEFORE stream, vq stays at zero for a little.
+
+Set stream to 24 fps while ffplay was defaulted to 25. Thought it resolved it, I was wrong.
+Seems to be more dependent on the fact that streams are started AFTER ffplay.
+When vq is 0, delay is almost non-existent
+
+SOLUTION!: Set video to play at double speed specifically by SKIPPING frames to reach that playback speed.
+Add -vf "setpts=0.5*PTS" to command to make:
+ffplay udp://192.168.0.189:54322 -fflags nobuffer -flags low_delay -framedrop -vf "setpts=0.5*PTS"
+Keep in mind, this still locks you to 25fps or whatever ffplay chooses, BUT it will eat up vq at double speed until
+all gone.
+Considering a faster playback speed to eat vq faster.
+Also removed -framedrop since I believe that is just for audio sync?
+FINAL COMMANDS 3/25/24:
+rpicam-vid --width 2560 --height 1440 --framerate 25 -t 0 --codec mjpeg --inline -o udp://192.168.0.189:54322
+ffplay udp://192.168.0.153:54322 -fflags nobuffer -flags low_delay -vf "setpts=0.25*PTS"
+
+RESOURCE USAGE WITH ffplay:
+
+1920x1080 25fps
+Load average: 0.56-0.68
+
+2560x1440 25fps
+Load average: 0.59-0.66
