@@ -36,9 +36,7 @@ def get_gamepad():
                             last_sent_command['throttle'] = throttle_command
                             send_data = True
 
-                    # Add similar condition for ABS_RX for steering if you have that in your script
-                    # This is just a placeholder for steering based on right stick horizontal movement
-                    # Replace 'ABS_RX' with the correct event code for your setup
+                    # Handles steering. Not sure that Absolute is required
                     if event.ev_type == "Absolute" and event.code == "ABS_RX":
                         steering_command = 'left' if event.state < -8000 else 'right' if event.state > 8000 else 'neutral'
                         if steering_command != last_sent_command['steering']:
@@ -51,6 +49,7 @@ def get_gamepad():
                         s.sendall((json.dumps(command) + "\n").encode('utf-8'))
     except KeyboardInterrupt:
         print("Controller script stopped")
+
 
 if __name__ == "__main__":
     get_gamepad()
