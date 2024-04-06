@@ -1,5 +1,15 @@
-from Rholler_Pack import rho_gps
-import time
+#import modules I made
 
-gps_reader = rho_gps()
 
+
+# Start Socket connection
+
+
+
+# Call modules and their functions
+
+
+# Prepare data for JSON send
+
+
+#
