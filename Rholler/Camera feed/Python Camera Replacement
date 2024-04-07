@@ -76,8 +76,16 @@ all gone.
 Considering a faster playback speed to eat vq faster.
 Also removed -framedrop since I believe that is just for audio sync?
 FINAL COMMANDS 3/25/24:
+Rpi terminal:
 rpicam-vid --width 2560 --height 1440 --framerate 25 -t 0 --codec mjpeg --inline -o udp://192.168.0.189:54322
+
+rpicam-vid --width 2560 --height 1440 --framerate 25 -t 0 --codec mjpeg --inline --camera 0 -o udp://192.168.0.189:54322
+rpicam-vid --width 2560 --height 1440 --framerate 25 -t 0 --codec mjpeg --inline --camera 1 -o udp://192.168.0.189:54323
+
+
+Windows CMD:
 ffplay udp://192.168.0.153:54322 -fflags nobuffer -flags low_delay -vf "setpts=0.25*PTS"
+ffplay udp://192.168.0.153:54323 -fflags nobuffer -flags low_delay -vf "setpts=0.25*PTS"
 
 RESOURCE USAGE WITH ffplay:
 
@@ -86,3 +94,6 @@ Load average: 0.56-0.68
 
 2560x1440 25fps
 Load average: 0.59-0.66
+
+BOTH STREAMS at 2560x1440:
+Load average: 1.24-1.36
