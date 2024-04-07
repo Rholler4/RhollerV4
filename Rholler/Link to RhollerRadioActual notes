@@ -1,0 +1,12 @@
+Windows 11: Settings > Network & Internet > Ethernet:
+    Set a static IP address and subnet mask
+
+Start DHCP server on laptop:
+    Start and run in admin mode. Currently just on flashdrive but will install (4/7/2024)
+
+Start UniFi Network server:
+    I also hit factory reset on device but I hope this isn't necessary every time.
+    Find device and let it get configured with an IP
+    Adopt
+    Pray
+
