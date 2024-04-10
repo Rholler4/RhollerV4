@@ -10,7 +10,7 @@ def setup_pca():
     i2c = busio.I2C(board.SCL, board.SDA)
     pca = adafruit_pca9685.PCA9685(i2c)
     kit = ServoKit(channels=16)
-    pca.frequency = 100  # ALWAYS set frequency after servokit
+    pca.frequency = 100  # ALWAYS set frequency after ServoKit
     return pca.channels[11], kit.servo[2]
 
 
@@ -26,7 +26,6 @@ def adjust_throttle_from_command(channel, command):
     else:
         duty_cycle = 0x2666  # Default to neutral
     channel.duty_cycle = duty_cycle
-
 
 
 def adjust_steering_from_command(servo, direction):
@@ -68,7 +67,6 @@ def start_server():
                         print(f"JSON decode error: {e}")
                     except KeyError:
                         continue  # Skip if the necessary keys aren't present
-
 
 
 if __name__ == "__main__":

@@ -3,7 +3,11 @@ tcp/h264://192.168.0.101:5005
 
 RASPI5:
 H264 codec issues. Can't find the codec???
-Streaming in mjpeg instead....
+Streaming in mjpeg instead...
+
+https://www.raspberrypi.com/documentation/accessories/camera.html
+https://www.raspberrypi.com/documentation/computers/camera_software.html
+
 
 rpicam-vid -t 0 --codec mjpeg --inline --listen -o tcp://0.0.0.0:5005
 tcp/mjpeg://192.168.0.153:5005
@@ -35,8 +39,6 @@ READINGS from HTOP (load average listed over 1 min):
 Keep load average below the number of cores.
 CPU usage exceeds 100% only because the load is across multiple cores.
 
-
-
 640x480 30fps
 Load average: 0.22
 
@@ -51,9 +53,12 @@ Load average: 1.13 - 1.35
 
 No choppiness through test.
 
+Think the choppiness is from TCP retransmissions
+
 FFmpeg: ffplay udp SUCCESS!!!!
 rpicam-vid --width 3840 --height 2160 --framerate 30 -t 0 --codec mjpeg --inline -o udp://192.168.0.189:54322
 ffplay udp://192.168.0.189:54322 -fflags nobuffer -flags low_delay -framedrop
+SHOULD BE ffplay udp://192.168.0.153:54322 but it still worked! What the hell?
 
 had to install ffmpeg and requires some resizing of the window but this works!!
 
@@ -79,13 +84,14 @@ FINAL COMMANDS 3/25/24:
 Rpi terminal:
 rpicam-vid --width 2560 --height 1440 --framerate 25 -t 0 --codec mjpeg --inline -o udp://192.168.0.189:54322
 
+RAN THESE SEPARATE with linux Screens
 rpicam-vid --width 2560 --height 1440 --framerate 25 -t 0 --codec mjpeg --inline --camera 0 -o udp://192.168.0.189:54322
 rpicam-vid --width 2560 --height 1440 --framerate 25 -t 0 --codec mjpeg --inline --camera 1 -o udp://192.168.0.189:54323
 
 
 Windows CMD:
-ffplay udp://192.168.0.153:54322 -fflags nobuffer -flags low_delay -vf "setpts=0.25*PTS"
-ffplay udp://192.168.0.153:54323 -fflags nobuffer -flags low_delay -vf "setpts=0.25*PTS"
+ffplay udp://192.168.0.199:54322 -fflags nobuffer -flags low_delay -vf "setpts=0.25*PTS"
+ffplay udp://192.168.0.199:54323 -fflags nobuffer -flags low_delay -vf "setpts=0.25*PTS"
 
 RESOURCE USAGE WITH ffplay:
 
@@ -97,3 +103,6 @@ Load average: 0.59-0.66
 
 BOTH STREAMS at 2560x1440:
 Load average: 1.24-1.36
+
+rpicam-vid --width 1920 --height 1080 --framerate 25 -t 0 --codec mjpeg --inline --camera 0 -o udp://192.168.0.196:54322
+rpicam-vid --width 1920 --height 1080 --framerate 25 -t 0 --codec mjpeg --inline --camera 1 -o udp://192.168.0.196:54323
