@@ -2,6 +2,7 @@ import socket
 import random
 import time
 
+
 def generate_random_data():
     a = str(random.uniform(0, 90))  # Latitude
     b = str(random.uniform(0, 180))  # Longitude
@@ -28,10 +29,15 @@ def run_client():
         client_socket.connect((host, port))
         print("Connection established!")
 
+        # Commented out as code locks up until message sent. Can use to start while loop?
+        '''
         data = client_socket.recv(1024).decode()
         print("Received from server:", data)
+        '''
 
         while True:
+            print("Preparing to send message")
+            print(generate_random_data())
             message = generate_random_data()
             client_socket.send(message.encode())
             print(f"Sent to server: {message}")

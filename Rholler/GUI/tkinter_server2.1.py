@@ -56,10 +56,12 @@ def run_server():
     conn.close()
     print("Connection closed.")
 
+
 def start_server_thread():
     server_thread = threading.Thread(target=run_server)
     server_thread.daemon = True
     server_thread.start()
+
 
 # Tkinter GUI setup (from tkinter_test2.py)
 def setup_gui():
