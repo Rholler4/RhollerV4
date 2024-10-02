@@ -20,7 +20,7 @@ jobs:
 
       - name: Deploy to Ubuntu Server
         run: |
-          ssh user@your-ubuntu-server-ip << 'EOF'
+          ssh hermes@47.27.194.250 -p 49159 << 'EOF'
           cd /path/to/your/project
           git pull origin main
           # Add any setup commands, e.g., restarting services
