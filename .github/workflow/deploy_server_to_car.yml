@@ -1,0 +1,29 @@
+name: Deploy to RC Car via Ubuntu Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup SSH Key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to RC Car
+        run: |
+          # SSH from the server to the RC car and pull the latest code
+          ssh pi@rc-car-ip-address << 'EOF'
+          cd /path/to/rc-car/project
+          git pull origin main
+          python3 -m pip install -r requirements.txt
+          sudo systemctl restart rc-car.service
+          EOF
